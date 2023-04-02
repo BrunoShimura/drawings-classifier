@@ -42,5 +42,31 @@ class DrawingClassifier:
         if os.path.exists(self.proj_name):
             with open(f"{self.proj_name}/{self.proj_name}_data.pickle", "rb") as f:
                 data = pickle.load(f)    
+            self.class1 = data['c1']
+            self.class2 = data['c2']
+            self.class3 = data['c3']
+            self.class1_counter = data['c1c']
+            self.class2_counter = data['c2c']
+            self.class3_counter = data['c3c']
+            self.clf = data['clf']
+            self.proj_name = data['pname']
+        else:
+            self.class1 = simpledialog.askstrings("Class 1", "What is the first class called?", parent=msg)
+            self.class2 = simpledialog.askstrings("Class 2", "What is the second class called?", parent=msg)
+            self.class3 = simpledialog.askstrings("Class 3", "What is the third class called?", parent=msg)
+
+            self.class1_counter = 1
+            self.class2_counter = 2
+            self.class3_counter = 3
+
+            self.clf = LinearSVC()
+
+            os.mkdir(self.proj_name)
+            os.chdir(self.proj_name)
+            os.mkdir(self.class1)
+            os.mkdir(self.class2)
+            os.mkdir(self.class3)
+            os.chdir("..")
+
     def init_gui(self):
         pass
