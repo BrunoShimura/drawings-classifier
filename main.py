@@ -6,6 +6,7 @@ from tkinter import *
 from tkinter import simpledialog
 
 import PIL
+import PIL.Image, PIL.ImageDraw
 import cv2 as cv
 import numpy as np
 
@@ -69,4 +70,97 @@ class DrawingClassifier:
             os.chdir("..")
 
     def init_gui(self):
+        WIDTH = 500
+        HEIGHT = 500
+        WHITE = (255, 255, 255)
+
+        self.root = Tk()
+        self.root.title(f"NeuraNine Drawing Classifier Alpha v0.2 - {self.proj_name}")
+
+        self.canvas = Canvas(self.root, width=WIDTH-10, height=HEIGHT-10, bg="white")
+        self.canvas.pack(expand=YES, fill=BOTH)
+        self.canvas.bind("<B1-Motion>", self.paint)
+
+        self.image1 = PIL.Image.new("RGB", (WIDTH, HEIGHT), WHITE)
+        self.draw = PIL.ImageDraw.Draw(self.image1)
+
+        btn_frame = tkinter.Frame(self.root)
+        btn_frame.pack(fill=X, side=BOTTOM)
+
+        btn_frame.columnconfigured(0, weight=1)
+        btn_frame.columnconfigured(1, weight=1)
+        btn_frame.columnconfigured(2, weight=1)
+
+        class1_btn = Button(btn_frame, text=self.class1, command=lambda: self.save(1))
+        class1_btn.grid(row=0, column=0, sticky=W + E)
+
+        class2_btn = Button(btn_frame, text=self.class2, command=lambda: self.save(2))
+        class2_btn.grid(row=0, column=1, sticky=W + E)
+
+        class3_btn = Button(btn_frame, text=self.class3, command=lambda: self.save(3))
+        class3_btn.grid(row=0, column=2, sticky=W + E)
+
+        bm_btn = Button(btn_frame, text="Brush-", command=self.brushmius)
+        bm_btn.grid(row=1, column=0, sticky=W + E)
+
+        clear_btn = Button(btn_frame, text="Clear", command=self.clear)
+        clear_btn.grid(row=1, column=0, sticky=W + E)
+
+        bp_btn = Button(btn_frame, text="Brush+", command=self.brushplus)
+        bp_btn.grid(row=1, column=2, sticky=W + E)
+
+        train_btn = Button(btn_frame, text="Train Model", command=self.train_model)
+        train_btn.grid(row=2, column=0, sticky=W + E)
+
+        save_btn = Button(btn_frame, text="Save Model", command=self.save_model)
+        save_btn.grid(row=2, column=1, sticky=W + E)
+
+        load_btn = Button(btn_frame, text="Load Model", command=self.load_model)
+        load_btn.grid(row=2, column=2, sticky=W + E)
+
+        change_btn = Button(btn_frame, text="Change Model", command=self.rotate_model)
+        change_btn.grid(row=3, column=0, sticky=W + E)
+
+        predict_btn = Button(btn_frame, text="Predict", command=self.predict)
+        predict_btn.grid(row=3, column=1, sticky=W + E)
+
+        save_everything_btn = Button(btn_frame, text="Save Everything", command=self.save_everything)
+        save_everything_btn.grid(row=3, column=2, sticky=W + E)
+
+        self.status_label = Label(btn_frame, text=f"Current Model: {type(self.clf).__name__}")
+        self.status_label.configure(font=("Arial", 10))
+        self.status_label.grid(row=4, column=1, sticky=W + E)
+
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.root.attributes("-topmost", True)
+        self.root.mainloop()
+
+    def paint(self, event):
+        pass
+
+    def save(self, class_num):
+        pass
+
+    def brushminus(self):
+        pass
+    
+    def clear(self):
+        pass
+
+    def train_model(self):
+        pass
+
+    def predict(self):
+        pass
+    
+    def rotate_model(self):
+        pass
+
+    def save_model(self):
+        pass
+
+    def save_everything(self):
+        pass
+
+    def on_closing(self):
         pass
