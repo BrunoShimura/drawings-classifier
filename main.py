@@ -39,7 +39,7 @@ class DrawingClassifier:
         msg = Tk()
         msg.withdraw()
 
-        self.proj_name = simpledialog.askstrings("Project Name", "Please enter your project name down below!", parent=msg)
+        self.proj_name = simpledialog.askstring("Project Name", "Please enter your project name down below!", parent=msg)
         if os.path.exists(self.proj_name):
             with open(f"{self.proj_name}/{self.proj_name}_data.pickle", "rb") as f:
                 data = pickle.load(f)    
@@ -52,9 +52,9 @@ class DrawingClassifier:
             self.clf = data['clf']
             self.proj_name = data['pname']
         else:
-            self.class1 = simpledialog.askstrings("Class 1", "What is the first class called?", parent=msg)
-            self.class2 = simpledialog.askstrings("Class 2", "What is the second class called?", parent=msg)
-            self.class3 = simpledialog.askstrings("Class 3", "What is the third class called?", parent=msg)
+            self.class1 = simpledialog.askstring("Class 1", "What is the first class called?", parent=msg)
+            self.class2 = simpledialog.askstring("Class 2", "What is the second class called?", parent=msg)
+            self.class3 = simpledialog.askstring("Class 3", "What is the third class called?", parent=msg)
 
             self.class1_counter = 1
             self.class2_counter = 2
@@ -87,9 +87,9 @@ class DrawingClassifier:
         btn_frame = tkinter.Frame(self.root)
         btn_frame.pack(fill=X, side=BOTTOM)
 
-        btn_frame.columnconfigured(0, weight=1)
-        btn_frame.columnconfigured(1, weight=1)
-        btn_frame.columnconfigured(2, weight=1)
+        btn_frame.columnconfigure(0, weight=1)
+        btn_frame.columnconfigure(1, weight=1)
+        btn_frame.columnconfigure(2, weight=1)
 
         class1_btn = Button(btn_frame, text=self.class1, command=lambda: self.save(1))
         class1_btn.grid(row=0, column=0, sticky=W + E)
@@ -100,11 +100,11 @@ class DrawingClassifier:
         class3_btn = Button(btn_frame, text=self.class3, command=lambda: self.save(3))
         class3_btn.grid(row=0, column=2, sticky=W + E)
 
-        bm_btn = Button(btn_frame, text="Brush-", command=self.brushmius)
+        bm_btn = Button(btn_frame, text="Brush-", command=self.brushminus)
         bm_btn.grid(row=1, column=0, sticky=W + E)
 
         clear_btn = Button(btn_frame, text="Clear", command=self.clear)
-        clear_btn.grid(row=1, column=0, sticky=W + E)
+        clear_btn.grid(row=1, column=1, sticky=W + E)
 
         bp_btn = Button(btn_frame, text="Brush+", command=self.brushplus)
         bp_btn.grid(row=1, column=2, sticky=W + E)
@@ -136,16 +136,38 @@ class DrawingClassifier:
         self.root.mainloop()
 
     def paint(self, event):
-        pass
+        x1, y1 = (event.x - 1), (event.y - 1)
+        x2, y2 = (event.x - 1), (event.y - 1)
+        self.canvas.create_rectangle(x1, y1, x2, y2, fill="black", width=self.brush_width)
+        self.draw.rectangle([x1, y2, x2 + self.brush_width, y2 + self.brush_width], fill="black", width=self.brush_width)
 
     def save(self, class_num):
-        pass
+        self.image1.save("temp.png")
+        img = PIL.Image.open("temp.png")
+        img.thumbnail((50, 50), PIL.Image.ANTIALIAS)
+
+        if class_num == 1:
+            img.save(f"{self.proj_name}/{self.class1}/{self.class1_counter}.png", "PNG")
+            self.class1_counter += 1
+        elif class_num == 2:
+            img.save(f"{self.proj_name}/{self.class2}/{self.class2_counter}.png", "PNG")
+            self.class2_counter += 1
+        elif class_num == 3:
+            img.save(f"{self.proj_name}/{self.class3}/{self.class3_counter}.png", "PNG")
+            self.class3_counter += 1
+
+        self.clear()
 
     def brushminus(self):
-        pass
+        if self.brush_width > 1:
+            self.brush_width -= 1
     
+    def brushplus(self):
+        self.brush_width += 1
+
     def clear(self):
-        pass
+        self.canvas.delete("all")
+        self.draw.rectangle([0, 0, 1000, 1000], fill="white")
 
     def train_model(self):
         pass
@@ -159,8 +181,13 @@ class DrawingClassifier:
     def save_model(self):
         pass
 
+    def load_model(self):
+        pass
+
     def save_everything(self):
         pass
 
     def on_closing(self):
         pass
+
+DrawingClassifier()
