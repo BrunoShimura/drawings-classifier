@@ -242,7 +242,11 @@ class DrawingClassifier:
         tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Model successfully loaded", parent=self.root)
 
     def save_everything(self):
-        pass
+        data = {"c1": self.class1, "c2": self.class2, "c3": self.class3, "c1c": self.class1_counter,
+                "c2c": self.class2_counter, "c3c": self.class3_counter, "clf": self.clf, "pname": self.proj_name}
+        with open(f"{self.proj_name}/{self.proj_name}_data.pickle", "wb") as f:
+            pickle.dump(data, f)
+        tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Project successfully saved!", parent=self.root)
 
     def on_closing(self):
         pass
