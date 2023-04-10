@@ -3,7 +3,7 @@ import os.path
 
 import tkinter.messagebox
 from tkinter import *
-from tkinter import simpledialog
+from tkinter import simpledialog, filedialog
 
 import PIL
 import PIL.Image, PIL.ImageDraw
@@ -230,7 +230,10 @@ class DrawingClassifier:
         self.status_label.config(text=f"Current Model: {type(self.clf).__name__}")
 
     def save_model(self):
-        pass
+        file_path = filedialog.asksaveasfilename(defaultextension="pickle")
+        with open(file_path, "wb") as f:
+            pickle.dump(self.clf, f)
+        tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Model successfully saved!", parent=self.root)
 
     def load_model(self):
         pass
