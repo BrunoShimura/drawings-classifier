@@ -197,8 +197,21 @@ class DrawingClassifier:
         tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Model successfully trained!", parent=self.root)
 
     def predict(self):
-        pass
-    
+        self.image1.save("temp.png")
+        img = PIL.Image.open("temp.png")
+        img.thumbnail((50, 50), PIL.Image.ANTIALIAS)
+        img.save("predictshape.png", "PNG")
+
+        img = cv.imread("predictshape.png")[:, :, 0]
+        img = img.reshape(2500)
+        prediction = self.clf.predict([img])
+        if prediction[0] == 1:
+            tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", f"The drawing is probably a {self.class1}", parent=self.root)
+        elif prediction[0] == 2:
+            tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", f"The drawing is probably a {self.class2}", parent=self.root)
+        elif prediction[0] == 3:
+            tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", f"The drawing is probably a {self.class3}", parent=self.root)
+
     def rotate_model(self):
         pass
 
