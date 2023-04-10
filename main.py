@@ -249,6 +249,10 @@ class DrawingClassifier:
         tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Project successfully saved!", parent=self.root)
 
     def on_closing(self):
-        pass
-
+        answer = tkinter.messagebox.askyesnocancel("Quit?", "Do you want to save your work?", parent=self.root)
+        if answer is not None:
+            if answer:
+                self.save_everything()
+            self.root.destroy()
+            exit()
 DrawingClassifier()
