@@ -236,7 +236,10 @@ class DrawingClassifier:
         tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Model successfully saved!", parent=self.root)
 
     def load_model(self):
-        pass
+        file_path = filedialog.askopenfilename()
+        with open(file_path, "rb") as f:
+            self.clf = pickle.load(f)
+        tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Model successfully loaded", parent=self.root)
 
     def save_everything(self):
         pass
