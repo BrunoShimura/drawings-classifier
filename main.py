@@ -17,8 +17,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 
+
 class DrawingClassifier:
-    
+
     def __init__(self):
         self.class1, self.class2, self.class3 = None, None, None
         self.class1_counter, self.class2_counter, self.class3_counter = None, None, None
@@ -43,7 +44,7 @@ class DrawingClassifier:
         self.proj_name = simpledialog.askstring("Project Name", "Please enter your project name down below!", parent=msg)
         if os.path.exists(self.proj_name):
             with open(f"{self.proj_name}/{self.proj_name}_data.pickle", "rb") as f:
-                data = pickle.load(f)    
+                data = pickle.load(f)
             self.class1 = data['c1']
             self.class2 = data['c2']
             self.class3 = data['c3']
@@ -58,8 +59,8 @@ class DrawingClassifier:
             self.class3 = simpledialog.askstring("Class 3", "What is the third class called?", parent=msg)
 
             self.class1_counter = 1
-            self.class2_counter = 2
-            self.class3_counter = 3
+            self.class2_counter = 1
+            self.class3_counter = 1
 
             self.clf = LinearSVC()
 
@@ -76,7 +77,7 @@ class DrawingClassifier:
         WHITE = (255, 255, 255)
 
         self.root = Tk()
-        self.root.title(f"NeuraNine Drawing Classifier Alpha v0.2 - {self.proj_name}")
+        self.root.title(f"NeuralNine Drawing Classifier Alpha v0.2 - {self.proj_name}")
 
         self.canvas = Canvas(self.root, width=WIDTH-10, height=HEIGHT-10, bg="white")
         self.canvas.pack(expand=YES, fill=BOTH)
@@ -129,7 +130,7 @@ class DrawingClassifier:
         save_everything_btn.grid(row=3, column=2, sticky=W + E)
 
         self.status_label = Label(btn_frame, text=f"Current Model: {type(self.clf).__name__}")
-        self.status_label.configure(font=("Arial", 10))
+        self.status_label.config(font=("Arial", 10))
         self.status_label.grid(row=4, column=1, sticky=W + E)
 
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -138,7 +139,7 @@ class DrawingClassifier:
 
     def paint(self, event):
         x1, y1 = (event.x - 1), (event.y - 1)
-        x2, y2 = (event.x - 1), (event.y - 1)
+        x2, y2 = (event.x + 1), (event.y + 1)
         self.canvas.create_rectangle(x1, y1, x2, y2, fill="black", width=self.brush_width)
         self.draw.rectangle([x1, y2, x2 + self.brush_width, y2 + self.brush_width], fill="black", width=self.brush_width)
 
@@ -162,7 +163,7 @@ class DrawingClassifier:
     def brushminus(self):
         if self.brush_width > 1:
             self.brush_width -= 1
-    
+
     def brushplus(self):
         self.brush_width += 1
 
@@ -173,7 +174,7 @@ class DrawingClassifier:
     def train_model(self):
         img_list = np.array([])
         class_list = np.array([])
-        
+
         for x in range(1, self.class1_counter):
             img = cv.imread(f"{self.proj_name}/{self.class1}/{x}.png")[:, :, 0]
             img = img.reshape(2500)
@@ -192,7 +193,7 @@ class DrawingClassifier:
             img_list = np.append(img_list, [img])
             class_list = np.append(class_list, 3)
 
-        img_list = img_list.reshape(self.class1_counter, - 1 + self.class2_counter - 1 + self.class3_counter -1, 2500)
+        img_list = img_list.reshape(self.class1_counter - 1 + self.class2_counter - 1 + self.class3_counter - 1, 2500)
 
         self.clf.fit(img_list, class_list)
         tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Model successfully trained!", parent=self.root)
@@ -239,7 +240,7 @@ class DrawingClassifier:
         file_path = filedialog.askopenfilename()
         with open(file_path, "rb") as f:
             self.clf = pickle.load(f)
-        tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Model successfully loaded", parent=self.root)
+        tkinter.messagebox.showinfo("NeuralNine Drawing Classifier", "Model successfully loaded!", parent=self.root)
 
     def save_everything(self):
         data = {"c1": self.class1, "c2": self.class2, "c3": self.class3, "c1c": self.class1_counter,
@@ -255,4 +256,6 @@ class DrawingClassifier:
                 self.save_everything()
             self.root.destroy()
             exit()
+
+
 DrawingClassifier()
