@@ -5,11 +5,12 @@ A Python application which uses machine learning classification algorithms to cl
 
 Timestamps:
 (0:00) Intro
-(1:22) Preview of Results
-(4:15) Installing Packages
-(5:30) Drawing Classifier Constructor
-(12:00) User Prompts & Loading Projects
-(18:20) Graphical User Interface
-(32:50) Drawing & Processing Images
-(39:40) Machine Learning Implementation
-(56:35) Outro
+
+- (1:22) Preview of Results
+- (4:15) Installing Packages
+- (5:30) Drawing Classifier Constructor
+- (12:00) User Prompts & Loading Projects
+- (18:20) Graphical User Interface
+- (32:50) Drawing & Processing Images
+- (39:40) Machine Learning Implementation
+- (56:35) Outro
