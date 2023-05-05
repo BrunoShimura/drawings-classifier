@@ -1,11 +1,10 @@
 # AI Custom drawings classifier with python
 A Python application which uses machine learning classification algorithms to classify drawing of the user.
  
-[NeuralNine](https://www.youtube.com/watch?v=cwwqDn57LUk)  
+[NeuralNine video](https://www.youtube.com/watch?v=cwwqDn57LUk)  
 
 Timestamps:
-(0:00) Intro
-
+- (0:00) Intro
 - (1:22) Preview of Results
 - (4:15) Installing Packages
 - (5:30) Drawing Classifier Constructor
